@@ -8,6 +8,12 @@ window.speechSynthesis.onvoiceschanged = function() {
     button.disabled = false;
 };
 
+if (speechSynthesis.onvoiceschanged === undefined) {
+    // firefox hack
+    window.speechSynthesis.getVoices();
+  button.disabled = false;
+}
+
 function vindVlaamseEllen(voice) {
     return voice.voiceURI === "Ellen";
 }
