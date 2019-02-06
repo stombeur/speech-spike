@@ -3,29 +3,29 @@
 var button = document.getElementById('clickme');
 button.disabled = true;
 
-window.speechSynthesis.onvoiceschanged = function() {
+
+function getVoices() {
     window.speechSynthesis.getVoices();
     button.disabled = false;
 };
 
-if (speechSynthesis.onvoiceschanged === undefined) {
-    // firefox hack
-    window.speechSynthesis.getVoices();
-  button.disabled = false;
+getVoices();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = getVoices();
 }
 
 function vindVlaamseEllen(voice) {
-    return voice.voiceURI === "Ellen";
+    voice.name === "Ellen";
 }
 
 button.onclick = function() {
     var txttospeak = document.getElementById('inputtext').value;
     var synth = window.speechSynthesis;
     var voices = synth.getVoices();
-    console.table(voices);
+    console.log(voices);
     var speak = new SpeechSynthesisUtterance(txttospeak);
-    var ellen = voices.find(vindVlaamseEllen);
-    //console.log(ellen);
+    var ellen = window.speechSynthesis.getVoices().find(function(voice){return voice.name === 'Ellen'});
+    console.log(ellen);
     speak.voice = ellen;
     synth.speak(speak);
 };
